@@ -126,7 +126,7 @@ resource "azurerm_public_ip" "vmIps" {
   name                = "publicVmIp-${count.index}"
   location            = azurerm_resource_group.cloudRG.location
   resource_group_name = azurerm_resource_group.cloudRG.name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
   domain_name_label   = "${var.domain_name_prefix}-${count.index}"
 }
 
