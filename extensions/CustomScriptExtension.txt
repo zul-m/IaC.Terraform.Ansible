@@ -1,0 +1,23 @@
+#az vm extension image list --location eastus -o table
+Name                                     Publisher                                             Version
+---------------------------------------  ----------------------------------------------------  -----------------
+CustomScriptExtension                    Microsoft.Compute                                     1.0
+CustomScriptExtension                    Microsoft.Compute                                     1.0.3
+CustomScriptExtension                    Microsoft.Compute                                     1.1
+CustomScriptExtension                    Microsoft.Compute                                     1.10.10
+CustomScriptExtension                    Microsoft.Compute                                     1.10.12
+CustomScriptExtension                    Microsoft.Compute                                     1.10.2
+CustomScriptExtension                    Microsoft.Compute                                     1.10.3
+CustomScriptExtension                    Microsoft.Compute                                     1.10.5
+CustomScriptExtension                    Microsoft.Compute                                     1.10.8
+CustomScriptExtension                    Microsoft.Compute                                     1.10.9
+CustomScriptExtension                    Microsoft.Compute                                     1.2
+CustomScriptExtension                    Microsoft.Compute                                     1.3
+CustomScriptExtension                    Microsoft.Compute                                     1.4
+CustomScriptExtension                    Microsoft.Compute                                     1.7
+CustomScriptExtension                    Microsoft.Compute                                     1.8
+CustomScriptExtension                    Microsoft.Compute                                     1.9
+CustomScriptExtension                    Microsoft.Compute                                     1.9.1
+CustomScriptExtension                    Microsoft.Compute                                     1.9.2
+CustomScriptExtension                    Microsoft.Compute                                     1.9.3
+CustomScriptExtension                    Microsoft.Compute                                     1.9.5
