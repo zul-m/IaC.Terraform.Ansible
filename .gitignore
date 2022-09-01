@@ -4,6 +4,9 @@
 # Local .infracost directories
 **/.infracost/*
 
+# Local .vs directories
+**/.vs/*
+
 # .tfstate files
 *.tfstate
 *.tfstate.*
