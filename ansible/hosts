@@ -1,0 +1,12 @@
+[azurevms]
+# Change the below IPs to the IPs that you get from Azure.
+
+
+
+[azurevms:vars]
+ansible_user=
+ansible_password=
+ansible_connection=
+ansible_winrm_transport=
+ansible_winrm_server_cert_validation=
+ansible_port=
