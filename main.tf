@@ -1,5 +1,4 @@
-## Confirm that you are using azurerm provider version 2.0 to get the azurerm_windows_virtual_machine resource and
-## the other resources and capabilities
+## Confirm that you are using azurerm provider version 2.0 and above to get the azurerm_windows_virtual_machine resource and the other resources and capabilities
 terraform {
   required_providers {
     azurerm = {
@@ -18,7 +17,7 @@ provider "azurerm" {
 }
 
 ## To create an Azure resource group using the value of resource_group
-## Variables such as Name and Location of the resource group are defined in the terraform.tfvars file.
+## Variables such as Name and Location of the resource group are defined in the terraform.tfvars file
 resource "azurerm_resource_group" "cloudRG" {
   name     = var.resource_group
   location = var.location
@@ -38,7 +37,6 @@ resource "azurerm_network_security_group" "cloudnsg" {
   resource_group_name = azurerm_resource_group.cloudRG.name
 
   ## Rule which allows Ansible to connect to the Virtual Machines from Azure Cloud Shell
-  ## source_address_prefix will be the IP Azure Cloud Shell is defined in variables file
   security_rule {
     name                       = "allowWinRm"
     priority                   = 101
@@ -47,7 +45,7 @@ resource "azurerm_network_security_group" "cloudnsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "5986"
-    source_address_prefix      = var.cloud_shell_source
+    source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
 
@@ -60,7 +58,7 @@ resource "azurerm_network_security_group" "cloudnsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "8172"
-    source_address_prefix      = var.management_ip
+    source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
 
@@ -86,7 +84,7 @@ resource "azurerm_network_security_group" "cloudnsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "3389"
-    source_address_prefix      = var.management_ip
+    source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
 }
@@ -111,7 +109,7 @@ resource "azurerm_subnet" "internal" {
   ]
 }
 
-## Assign public IP to the load balancer so that client application will connect to the web app.
+## Assign public IP to the load balancer so that client application will connect to the web app
 ## IP should be static alse IP will not be assigned
 resource "azurerm_public_ip" "lbIp" {
   name                = "publicLbIp"
@@ -212,8 +210,8 @@ resource "azurerm_windows_virtual_machine" "cloudVMs" {
   network_interface_ids = [azurerm_network_interface.main[count.index].id]
   availability_set_id   = azurerm_availability_set.cloud-as.id
   computer_name         = "cloudvm-${count.index}"
-  admin_username        = "testadmin"
-  admin_password        = "Password2021!"
+  admin_username        = var.admin_username
+  admin_password        = var.admin_password
 
   source_image_reference {
     publisher = "MicrosoftWindowsServer"
@@ -237,9 +235,9 @@ resource "azurerm_virtual_machine_extension" "enablewinrm" {
   count                      = 2
   name                       = "enablewinrm"
   virtual_machine_id         = azurerm_windows_virtual_machine.cloudVMs[count.index].id
-  publisher                  = "Microsoft.Compute"     ## az vm extension image list --location eastus Do not use Microsoft.Azure.Extensions here
-  type                       = "CustomScriptExtension" ## az vm extension image list --location eastus Only use CustomScriptExtension here
-  type_handler_version       = "1.9"                   ##az vm extension image list --location eastus
+  publisher                  = "Microsoft.Compute"     ## az vm extension image list --location eastus (do not use Microsoft.Azure.Extensions here)
+  type                       = "CustomScriptExtension" ## az vm extension image list --location eastus (only use CustomScriptExtension here)
+  type_handler_version       = "1.9"                   ## az vm extension image list --location eastus
   auto_upgrade_minor_version = true
   settings                   = <<SETTINGS
     {
@@ -253,8 +251,8 @@ output "VMIps" {
   value = azurerm_public_ip.vmIps.*.ip_address
 }
 
-## This code will return the public ip of the load balancer. This IP can be used to connect and test the
-## website after the deployment.
+## This code will return the public ip of the load balancer
+## This IP can be used to connect and test the website after the deployment
 output "Load_Balancer_IP" {
   value = azurerm_public_ip.lbIp.ip_address
 }
