@@ -23,7 +23,7 @@ The Control node sends configuration programs which are known as modules to the 
 Here's the design of the project which we are going to implement:
 
 <p align="center">
-    <img src="pics/deployment-plan-figure.png" height="150">
+    <img src="pics/deployment-plan-figure.png" width="75%">
 </p>
 
 1. The user will login into the Azure portal and use Azure Cloud Shell to run Terraform and Ansible scripts.
